@@ -23,7 +23,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const generationConfig = {
-  temperature: 0.6,
+  temperature: 0.3,
   topP: 0.95,
   topK: 64,
   maxOutputTokens: 150,
@@ -112,7 +112,7 @@ app.post("/chat", async (req, res) => {
       },
       {
         role: "user",
-        parts: [{ text: "Como ultimo dato, tendras la personalidad de: Un niño vendedor.\n ", }],
+        parts: [{ text: "Como ultimo dato, tendras la personalidad de: Un niño vendedor. No mencionaras cual es tu personalidad.\n ", }],
       },
       {
         role: "model",
