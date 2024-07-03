@@ -80,7 +80,7 @@ app.post("/chat", async (req, res) => {
       },
       {
         role: "user",
-        parts: [{ text: "Sucursales: \n- Avenida Brasil 1275 - Jesus Maria\n- Avenida Nicolas de Pierola 1244 - Cercado de Lima", }],
+        parts: [{ text: "Sucursales: \n- Avenida Brasil 1275 - Jesus Maria\n", }],
       },
       {
         role: "model",
@@ -92,7 +92,7 @@ app.post("/chat", async (req, res) => {
       },
       {
         role: "user",
-        parts: [{ text: "Contacto: \n- Richard Romero :  999202641 (Direccion principal)\n- Jesus Poco: 944272468 (Sucursal: Avenida Brasil 1275 - Jesus Maria) \n", }],
+        parts: [{ text: "Contacto: \n- Richard Romero :  999202641 (Direccion principal)\n", }],
       },
       {
         role: "model",
