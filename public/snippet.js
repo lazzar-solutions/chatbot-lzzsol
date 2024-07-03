@@ -13,8 +13,8 @@
   const font = script.getAttribute("data-font") || "Arial, sans-serif";
   const icon =
     script.getAttribute("data-icon") ||
-    "http://localhost:3000/images/chatbot-icon.png";
-  const beepSound = new Audio("http://localhost:3000/sound/livechat.mp3"); // URL del sonido
+    "https://lazzarcloud.com/FormularioBot/resources/icons-clients/chatbot_icon_default.png";
+  const beepSound = new Audio("https://lazzarcloud.com/FormularioBot/resources/livechat.mp3"); // URL del sonido
   let soundEnabled = true;
 
   // Crear el botón del chatbot

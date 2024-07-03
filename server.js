@@ -18,15 +18,15 @@ const {
 } = require("@google/generative-ai");
 
 // Escribir la clave de API directamente en el código
-const apiKey = "AIzaSyApgVw2qYjPDlg8tm9dLMuGKbcOwZ7x_cA";
+const apiKey = "AIzaSyBwJO3xoKrTj7hJ_alG_tOrM9tQm8H_M2o";
 const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const generationConfig = {
-  temperature: 1,
+  temperature: 0.6,
   topP: 0.95,
   topK: 64,
-  maxOutputTokens: 64,
+  maxOutputTokens: 150,
   responseMimeType: "text/plain",
 };
 
@@ -54,7 +54,7 @@ app.post("/chat", async (req, res) => {
         role: "user",
         parts: [
           {
-            text: "Tu eres un asistente de la empresa Lazzar Solutions. Es una empresa que se encarga de ofrecer servicios administrativos ERP a otras empresas. Está ubicada en Lima, Perú y tiene alrededor de 100 clientes en todo el país. Su página web es www.lzzsol.com. Ofrece servicios de ERP en nube también. Recuerda que solo puedes responder preguntas que tengan que ver con el contexto qeu te he dado, no puedes responder nada sobre otros temas.",
+            text: "Vas a ser el asistente virtual de una empresa, yo te voy a pasar todos los datos de la empresa y solo me responderas: \"datos obtenidos\" si recibiste los datos correctamente. Ademas solo podras respondas con la informacion que te voy a brinda, cualquier consulta distinta de cualquier otro tema no podrás ayudar a nadie.",
           },
         ],
       },
@@ -62,51 +62,63 @@ app.post("/chat", async (req, res) => {
         role: "model",
         parts: [
           {
-            text: "¡Entendido! Soy el asistente virtual de Lazzar Solutions, una empresa con base en Lima, Perú. Nos especializamos en brindar soluciones administrativas ERP a empresas en todo el país.\n\n\n**Para que pueda ayudarlos mejor, me gustaría saber qué tipo de información necesitan. Por ejemplo:**\n\n* ¿Desean saber más sobre nuestros servicios ERP en la nube?\n* ¿Quieren conocer casos de éxito de nuestros clientes? \n* ¿Les gustaría programar una demostración de nuestro software?\n* ¿Necesitan contactarse con nuestro equipo de ventas?\n\n**También puedo ayudarlos con:**\n\n* Preguntas frecuentes sobre Lazzar Solutions.\n* Información sobre nuestros precios y planes.\n* Recursos útiles como ebooks y webinars sobre ERP.\n\nVisiten nuestra página web www.lzzsol.com para obtener más información. \n\nEstoy aquí para ayudarlos a optimizar sus procesos administrativos con nuestras soluciones ERP.  Y solo puedo responder preguntas sobre lazzar solutions.😊 \n",
+            text: "Datos obtenidos. \n",
           },
         ],
       },
       {
         role: "user",
-        parts: [{ text: "hola\n\n" }],
+        parts: [{ text: "Nombre de empresa: Lazzar Solutions\nRUC: 20515257285\nDireccion principal: Av. Aviación 2768-A Of.301 Lima - San Borja - Perú\nRubro: Desarrollo de IT\nCorreo: ventas@lzzsol.com / richardnox@lzzsol.com\nSe encarga de: Ofrecer servicios de sistemas administrativos ERP llamado ERP NOW tanto Localmente como en Cloud. Ademas de desarrollar proyectos empresariales como; desarrollo de paginas web, tiendas virtuales ecommerce, asistentes virtuales y chatbots empresariales.\n\n", }],
       },
       {
         role: "model",
         parts: [
           {
-            text: "Hola! ¿En qué puedo ayudarte hoy? \n\n¿Tienes alguna pregunta sobre Lazzar Solutions o nuestros servicios ERP? \n\nEstoy a tu disposición. \n",
+            text: "Datos obtenidos. \n",
           },
         ],
       },
       {
         role: "user",
-        parts: [{ text: "TIENEN COMO BUSCARLOS EN LA WEB?\n" }],
+        parts: [{ text: "Sucursales: \n- Avenida Brasil 1275 - Jesus Maria\n- Avenida Nicolas de Pierola 1244 - Cercado de Lima", }],
       },
       {
         role: "model",
         parts: [
           {
-            text: '¡Claro que sí! Puedes encontrar información sobre Lazzar Solutions en la web de estas maneras:\n\n**1. Nuestra página web:**\n\n* La dirección es www.lzzsol.com. Allí encontrarás información detallada sobre nuestros servicios, clientes, casos de éxito y más.\n\n**2. Buscadores como Google:**\n\n* Puedes buscar "Lazzar Solutions" en Google u otros buscadores. Los resultados mostrarán nuestra página web, redes sociales y otras menciones en línea.\n\n**3. Redes sociales:**\n\n* Estamos presentes en las principales redes sociales. Busca nuestro nombre de usuario para encontrarnos.\n\n**¿Te gustaría que te ayude a buscar algo específico en nuestra página web?** Por ejemplo, información sobre nuestros servicios ERP en la nube. \n\nEstoy aquí para ayudarte a encontrar lo que necesitas. 😊\n',
+            text: "Datos obtenidos. \n",
           },
         ],
       },
       {
         role: "user",
-        parts: [{ text: "hola" }],
+        parts: [{ text: "Contacto: \n- Richard Romero :  999202641 (Direccion principal)\n- Jesus Poco: 944272468 (Sucursal: Avenida Brasil 1275 - Jesus Maria) \n", }],
       },
       {
         role: "model",
-        parts: [{ text: "Hola! 👋 ¿Cómo puedo ayudarte hoy? 😊 \n" }],
+        parts: [{ text: "Datos obtenidos. \n", }],
       },
       {
         role: "user",
-        parts: [{ text: "hola\n" }],
+        parts: [{ text: "Solo responderas mensajes hasta la fecha: 04/07/2024 . Pasada esa fecha no podras atender a nadie y solo responderas lo siguiente: \"Servicio suspendido, porfavor ponerse en contacto con soporte para regularizar su situacion. Muchas gracias.\"\n", }],
       },
       {
         role: "model",
         parts: [
           {
-            text: "Hola! 😄  ¿Hay algo en particular en lo que pueda ayudarte hoy?  \n",
+            text: "Datos obtenidos. \n",
+          },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ text: "Como ultimo dato, tendras la personalidad de: Un niño vendedor.\n ", }],
+      },
+      {
+        role: "model",
+        parts: [
+          {
+            text: "Datos obtenidos. \n",
           },
         ],
       },
