@@ -46,14 +46,14 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
   if (err) {
     throw err;
   }
-  console.log("Conectado a la base de datos MySQL");
+  console.log('Conectado a la base de datos MySQL');
 });
 
 app.get("/", (req, res) => {
@@ -71,60 +71,49 @@ app.post("/chat", async (req, res) => {
   const id_usuario = 1;
 
   // Consulta a la base de datos
-  db.query(
-    "SELECT * FROM clientes_prompt WHERE id_user = ?",
-    [id_usuario],
-    (err, result) => {
-      if (err) {
-        console.error("Error al realizar la consulta:", err);
-        return res.status(500).send("Error en el servidor");
-      }
-
-      if (result.length === 0) {
-        return res
-          .status(404)
-          .send("No se encontraron datos para el usuario especificado");
-      }
-
-      // Obtener los campos bot_prompt y model_response
-      const { bot_prompt, model_response } = result[0];
-      console.log("bot_prompt:", bot_prompt);
-      console.log("model_response:", model_response);
-
-      // Continuar con el flujo normal del chat
-      const chatSession = model.startChat({
-        generationConfig,
-        history: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: bot_prompt,
-              },
-            ],
-          },
-          {
-            role: "model",
-            parts: [
-              {
-                text: model_response,
-              },
-            ],
-          },
-        ],
-      });
-
-      chatSession
-        .sendMessage(userMessage)
-        .then((result) => {
-          res.send({ response: result.response.text() });
-        })
-        .catch((err) => {
-          console.error("Error al enviar el mensaje:", err);
-          res.status(500).send("Error en el servidor");
-        });
+  db.query('SELECT * FROM clientes_prompt WHERE id_user = ?', [id_usuario], (err, result) => {
+    if (err) {
+      console.error('Error al realizar la consulta:', err);
+      return res.status(500).send('Error en el servidor');
     }
-  );
+
+    if (result.length === 0) {
+      return res.status(404).send('No se encontraron datos para el usuario especificado');
+    }
+
+    // Obtener los campos bot_prompt y model_response
+    const { bot_prompt, model_response } = result[0];
+
+    // Continuar con el flujo normal del chat
+    const chatSession = model.startChat({
+      generationConfig,
+      history: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: bot_prompt,
+            },
+          ],
+        },
+        {
+          role: "model",
+          parts: [
+            {
+              text: model_response,
+            },
+          ],
+        },
+      ],
+    });
+
+    chatSession.sendMessage(userMessage).then(result => {
+      res.send({ response: result.response.text() });
+    }).catch(err => {
+      console.error('Error al enviar el mensaje:', err);
+      res.status(500).send('Error en el servidor');
+    });
+  });
 });
 
 const PORT = process.env.PORT || 3000;
